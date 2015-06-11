@@ -79,8 +79,8 @@ public function findUser($UserName,$password){
             'pwd' => $password
 		);
     $query = $this->db->get_where('userdata',$data, null,null);
-    //var_dump($query->result());
-    if($query->num_rows == 1){
+    //var_dump($query->num_rows());
+    if($query->num_rows() == 1){
         return true;
     }
     else{
@@ -88,20 +88,32 @@ public function findUser($UserName,$password){
     }
     }
 
-public function findBanner($islimit,$time)
+public function findBanner($islimit,$time,$type)
 { //islimit define the time range
     $jst_nw = new DateTime();//date("Y-m-d 0:0:0");
     $jst_nw_str = $jst_nw->format('Y-m-d');
-    if ($islimit == null) {
+
+    if ($islimit) {
+        $nextdate = date_add($jst_nw, date_interval_create_from_date_string("$time days"));
+    }
+    else{
     $nextdate = date_add($jst_nw, date_interval_create_from_date_string("365 days"));
         }
-    else{
-    $nextdate = date_add($jst_nw, date_interval_create_from_date_string("$time days"));
-        }
+
     $nextdate=$nextdate->format('Y-m-d');
-    $query = $this->db->query("Select * from banner  where enddate <= $nextdate and enddate >= $jst_nw_str");
+    echo $nextdate;
+    if ($type==null) {
+        $query = $this->db->query("Select * from banner  where enddate >= $nextdate and enddate >= $jst_nw_str");
+    }
+    else{
+        $query = $this->db->query("Select * from banner  where enddate >= $nextdate and enddate >= $jst_nw_str and typeid='$type'");
+    }
     $res=$query->num_rows();
-    return $res;
+    echo $res;
+    $x=rand(0,$res-1);
+    $res=$query->result();
+
+    return $res[$x];
 
     }
 
@@ -112,7 +124,7 @@ public function getfetchtime($bannid){
     }
 
     public function gettaskid($appkey){
-        $query=$this->db->query("Select * from appdata where banid = '$appkey'");
+        $query=$this->db->query("Select * from appdata where appkey = '$appkey'");
         $res=$query->result();
         return $res[0]->taskid;
     }
@@ -141,13 +153,15 @@ public function getfetchtime($bannid){
     }
 
     public function fetcher($banid,$appkey ){
-        $tsid=gettaskid($appkey);
+        $tsid=$this->gettaskid($appkey);
+        //echo $tsid;
         $query = $this->db->query("Select * from fetchdata  where banid='$banid' and taskid='$tsid'");
+        //echo $query->num_rows(), "sfsffs";
         if($query->num_rows()==0){
-            $this->addfetchdata($banid,$appkey);
+            $this->addfetchdata($banid,$tsid);
         }
         else{
-         $x=   getfetchtime($banid);
+         $x=  $this-> getfetchtime($banid);
             $x=$x+1;
             $this->inceasefetch($banid,$tsid,$x);
         }
