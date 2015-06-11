@@ -23,15 +23,17 @@
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin">
 
-                <input type="text" id="username" class="form-control" placeholder="Email address" required autofocus>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
                 <br>
-                <input type="password" id="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                 <br>
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                <div><?php echo validation_errors(); ?></div>
             </form>
-        </div><!-- /card-container -->
+        </div>
     </div>
 </div>
+
 
 </body>
 </html>
