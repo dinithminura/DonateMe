@@ -12,14 +12,14 @@ class api extends CI_Controller {
         }
 
             $banid=$ban->banid;
-
+var_dump($ban);
         $bantimetob=$this->Dblink->getfetchtime($banid)+1;
         echo "****",$banid;
         $this->Dblink->fetcher($banid,$appkey);
-        while($bantimetob>$this->Dblink->getfetchtime($banid)){
+        /*while($bantimetob>$this->Dblink->getfetchtime($banid)){
             $tsid=$this->Dblink->gettaskid($appkey);
-            @ $this->Dblink->inceasefetch($banid,$tsid,$bantimetob);
-        }
+             $this->Dblink->inceasefetch($banid,$tsid,$bantimetob);
+        }*/
 
     }
 }
