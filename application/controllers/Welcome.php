@@ -7,6 +7,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('login');
-        // $this->load->model('Dblink','',TRUE);
+        $this->load->model('Dblink');
+        $this->Dblink->addUser('svvsvd','sdvdbsd','sfg',true);
 	}
 }
