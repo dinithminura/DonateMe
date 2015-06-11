@@ -1,7 +1,7 @@
 ###################
 What is DonateMe
 ###################
-A charity application that users can publish  their adverts, banners about what they want. 
+A charity application that users can publish  their adverts, banners about what they want.
 
 *******************
 Server Requirements
