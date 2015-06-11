@@ -101,7 +101,7 @@ public function findBanner($islimit,$time,$type)
         }
 
     $nextdate=$nextdate->format('Y-m-d');
-    echo $nextdate;
+    //echo $nextdate;
     if ($type==null) {
         $query = $this->db->query("Select * from banner  where enddate >= $nextdate and enddate >= $jst_nw_str");
     }
@@ -109,7 +109,7 @@ public function findBanner($islimit,$time,$type)
         $query = $this->db->query("Select * from banner  where enddate >= $nextdate and enddate >= $jst_nw_str and typeid='$type'");
     }
     $res=$query->num_rows();
-    echo $res;
+   // echo $res;
     $x=rand(0,$res-1);
     $res=$query->result();
 
@@ -120,7 +120,10 @@ public function findBanner($islimit,$time,$type)
 public function getfetchtime($bannid){
     $query=$this->db->query("Select * from fetchdata where banid = '$bannid'");
     $res=$query->result();
-    return $res[0]->fetchescount;
+    if ($res==null){return null;}
+    else {
+        return $res[0]->fetchescount;
+    }
     }
 
     public function gettaskid($appkey){
@@ -154,10 +157,11 @@ public function getfetchtime($bannid){
 
     public function fetcher($banid,$appkey ){
         $tsid=$this->gettaskid($appkey);
-        //echo $tsid;
-        $query = $this->db->query("Select * from fetchdata  where banid='$banid' and taskid='$tsid'");
-        //echo $query->num_rows(), "sfsffs";
+        //echo $tsid , "4575s45f4b5///////";
+        $banid=intval($banid);
+        $query = $this->db->query("Select * from fetchdata  INNER JOIN banner ON fetchdata.banid=banner.banid INNER JOIN appdata ON appdata.taskid=fetchdata.taskid where appkey='$appkey'");
         if($query->num_rows()==0){
+
             $this->addfetchdata($banid,$tsid);
         }
         else{
