@@ -17,6 +17,7 @@ class Welcome extends CI_Controller {
        // $this->Dblink->findUser('svvsvd','sfg');
         //$this->Dblink->getfetchtime(0);
         $this->Dblink->findBanner(true,1);
+        $this->Dblink->makeappkey("","test");
       
 	}
 }

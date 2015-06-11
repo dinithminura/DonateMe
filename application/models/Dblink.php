@@ -27,10 +27,9 @@ public function addBaner($UserNo,$startdate,$enddate,$typeid,$contact){
         
     }
 
-public function addTask($taskid,$devid,$appkey){ //appdata
+public function addTask($devid,$appkey){ //appdata
         
         $data = array(
-			'taskid' =>$taskid,
 			'devid' => $devid,
             'appkey' =>$appkey
 		);
@@ -42,7 +41,7 @@ public function addfetchdata($banid,$taskid){
         
         $data = array(
 			'banid' =>$banid,
-			'fetchescount' => 0,
+			'fetchescount' => 1,
             'taskid' =>$taskid
 		);
        $this->db->insert('fetchdata',$data); 
@@ -112,7 +111,48 @@ public function getfetchtime($bannid){
     return $res[0]->fetchescount;
     }
 
-//public function
+    public function gettaskid($appkey){
+        $query=$this->db->query("Select * from appdata where banid = '$appkey'");
+        $res=$query->result();
+        return $res[0]->taskid;
+    }
+
+    public function makeappkey($userid,$appname){
+        $dt = new DateTime();
+        $dt_str=$dt->format('Y-m-d H:i:s');
+        $enc_val=$dt_str.$appname;
+        $appkeygen=md5($enc_val);
+        $this->addTask($userid,$appkeygen);
+        $query = $this->db->query("Select * from appdata  where appkey= '$appkeygen'");
+        $query=$query->result();
+        $taskid=$query[0]->taskid;
+
+        echo $appkeygen;
+}
+
+    public function makebanner($userid,$startdate,$enddate,$typeid,$contactno,$appkey){
+
+        $this->addBaner($userid,$startdate,$enddate,$typeid,$contactno);
+        $query = $this->db->query("Select * from banner  where enddtae= '$enddate' and userno = '$userid'");
+        $query=$query->result();
+        $banid=$query[0]->banid;
+        $this->addfetchdata($banid,$this->gettaskid($appkey));
+
+    }
+
+    public function fetcher($banid,$appkey ){
+        $tsid=gettaskid($appkey);
+        $query = $this->db->query("Select * from fetchdata  where banid='$banid' and taskid='$tsid'");
+        if($query->num_rows()==0){
+            $this->addfetchdata($banid,$appkey);
+        }
+        else{
+         $x=   getfetchtime($banid);
+            $x=$x+1;
+            $this->inceasefetch($banid,$tsid,$x);
+        }
+    }
+
 }
 
 ?>
