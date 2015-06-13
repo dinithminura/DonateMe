@@ -9,11 +9,15 @@ class Home extends CI_Controller {
 
     function index()
     {
-        if($this->session->userdata('logged_in'))
+        if($this->session->userdata('username'))
         {
-            $session_data = $this->session->userdata('logged_in');
-            $data['username'] = $session_data['username'];
+            $data = $this->session->userdata;
+            //$user = $this->session->userdata('username');
+            $id = $this->session->userdata('userid');
             $this->load->view('user_header',$data);
+            $this->load->model('app');
+            $data['app']=$this->app->get_app($id);
+            $this->load->view('dashboard',$data);
         }
         else
         {
