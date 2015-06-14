@@ -12,10 +12,13 @@ class api extends CI_Controller {
         }
 
             $banid=$ban->banid;
-var_dump($ban);
+//var_dump($ban);
+        $ban->link="http://localhost:81/DonateMe/images/".$banid.".jpg";
+        echo json_encode($ban);
         $bantimetob=$this->Dblink->getfetchtime($banid)+1;
         echo "****",$banid;
         $this->Dblink->fetcher($banid,$appkey);
+
         /*while($bantimetob>$this->Dblink->getfetchtime($banid)){
             $tsid=$this->Dblink->gettaskid($appkey);
              $this->Dblink->inceasefetch($banid,$tsid,$bantimetob);
