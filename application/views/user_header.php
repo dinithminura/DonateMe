@@ -3,28 +3,40 @@
 <head>
     <title>Professional Practices</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo base_url('assets/css/bootstrap.css') ?>" rel="stylesheet">
+    <!--external css-->
+    <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/zabuto_calendar.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/js/gritter/css/jquery.gritter.css') ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/lineicons/style.css') ?>">
+
+    <!-- Custom styles for this template -->
+    <link href="<?php echo base_url('assets/css/style.css') ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/style-responsive.css') ?>" rel="stylesheet">
+
+    <script src="<?php echo base_url('assets/js/chart-master/Chart.js') ?>"></script>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
 
-            <a class="navbar-brand" href="<?php echo base_url('') ?>">Donate Me</a>
-
+<section id="container" >
+    <!-- **********************************************************************************************************************************************************
+    TOP BAR CONTENT & NOTIFICATIONS
+    *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
-        <div class="collapse navbar-collapse">
-            <p class="navbar-text navbar-right">Signed in as <?php echo "$username";?>&nbsp;&nbsp;<img src="https://lh4.googleusercontent.com/-e6ZeX6FeSkY/U5B86kHSYUI/AAAAAAAAAc0/Z4z84nNYk-4/s315-no/DSC_0158-2.jpg" alt="<?php echo "$username";?>" style="border-radius:50%;max-width:30px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" onclick="location.href='<?php echo base_url();?>home/logout'">Logout</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <!--logo start-->
+        <a href="<?php echo base_url('home') ?>" class="logo"><b>DONATE ME</b></a>
+        <!--logo end-->
+
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="logout" href="<?php echo base_url();?>home/logout">Logout</a></li>
+            </ul>
         </div>
-    </div>
-</nav>
-
-
-</body>
-</html>
+    </header>
