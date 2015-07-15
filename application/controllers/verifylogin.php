@@ -20,7 +20,15 @@ class VerifyLogin extends CI_Controller {
         else
         {
             //Go to private area
-            redirect('home', 'refresh');
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+            if ($this->Dblink->findUserType($username, $password)==0){
+                redirect('/newapp', 'refresh');
+            }
+            else{
+                redirect('/addbanner', 'refresh');
+            }
+
         }
     }
     function check_database($password)

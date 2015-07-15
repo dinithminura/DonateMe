@@ -88,6 +88,19 @@ public function findUser($UserName,$password){
     }
     }
 
+    public function findUserType($UserName,$password){
+
+        $data = array(
+            'username' =>$UserName,
+            'pwd' => $password
+        );
+        $query = $this->db->get_where('userdata',$data, null,null);
+        //var_dump($query->num_rows());
+
+        return $query->result()[0]->isuser;
+    }
+
+
 public function findappkey($appkey){
 
         $data = array(
