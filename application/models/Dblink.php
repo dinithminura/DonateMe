@@ -88,6 +88,46 @@ public function findUser($UserName,$password){
     }
     }
 
+public function findappkey($appkey){
+
+        $data = array(
+            'appkey' =>$appkey
+        );
+
+        $query = $this->db->get_where('appdata',$data, null,null);
+        //var_dump($query->num_rows());
+        if($query->num_rows() == 1){
+
+            return true;
+
+        }
+        else{
+            return false;
+        }
+    }
+public function findbannerid($UserNo,$startdate,$enddate,$typeid,$contact){
+
+        $data = array(
+            'userno' =>$UserNo,
+            'startdate' => $startdate,
+            'enddate' =>$enddate,
+            'typeid' => $typeid,
+            'contactno' => $contact
+        );
+
+        $query = $this->db->get_where('banner',$data, null,null);
+        //var_dump($query->num_rows());
+        if($query->num_rows() == 1){
+
+            return $query->result();
+
+
+        }
+        else{
+            return false;
+        }
+    }
+
 public function findBanner($islimit,$time,$type)
 { //islimit define the time range
     $jst_nw = new DateTime();//date("Y-m-d 0:0:0");
@@ -126,26 +166,26 @@ public function getfetchtime($bannid){
     }
     }
 
-    public function gettaskid($appkey){
+public function gettaskid($appkey){
         $query=$this->db->query("Select * from appdata where appkey = '$appkey'");
         $res=$query->result();
         return $res[0]->taskid;
     }
 
-    public function makeappkey($userid,$appname){
+public function makeappkey($userid,$appname,$hashkey){
         $dt = new DateTime();
         $dt_str=$dt->format('Y-m-d H:i:s');
-        $enc_val=$dt_str.$appname;
+        $enc_val=$dt_str.$appname.$hashkey;
         $appkeygen=md5($enc_val);
         $this->addTask($userid,$appkeygen);
         $query = $this->db->query("Select * from appdata  where appkey= '$appkeygen'");
         $query=$query->result();
         $taskid=$query[0]->taskid;
 
-        echo $appkeygen;
+        return $appkeygen;
 }
 
-    public function makebanner($userid,$startdate,$enddate,$typeid,$contactno,$appkey){
+public function makebanner($userid,$startdate,$enddate,$typeid,$contactno,$appkey){
 
         $this->addBaner($userid,$startdate,$enddate,$typeid,$contactno);
         $query = $this->db->query("Select * from banner  where enddtae= '$enddate' and userno = '$userid'");
@@ -155,8 +195,9 @@ public function getfetchtime($bannid){
 
     }
 
-    public function fetcher($banid,$appkey ){
+public function fetcher($banid,$appkey ){
         $tsid=$this->gettaskid($appkey);
+
         //echo $tsid , "4575s45f4b5///////";
         $banid=intval($banid);
         $query = $this->db->query("Select * from fetchdata  INNER JOIN banner ON fetchdata.banid=banner.banid INNER JOIN appdata ON appdata.taskid=fetchdata.taskid where appkey='$appkey'");
@@ -169,6 +210,7 @@ public function getfetchtime($bannid){
             $x=$x+1;
             $this->inceasefetch($banid,$tsid,$x);
         }
+    return true;
     }
 
 }

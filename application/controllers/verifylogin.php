@@ -4,7 +4,7 @@ class VerifyLogin extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('user','',TRUE);
+        $this->load->model('Dblink','',TRUE);
     }
     function index()
     {
@@ -29,22 +29,27 @@ class VerifyLogin extends CI_Controller {
         $username = $this->input->post('username');
 
         //query the database
-        $result = $this->user->login($username, $password);
+        $result = $this->Dblink->findUser($username, $password);
         if($result)
-        {
+        {/*
             foreach ($result as $row)
             {
                 $this->session->set_userdata('userid', $row->userno);
                 $this->session->set_userdata('username', $row->username);
                 $this->session->set_userdata('level', $row->isuser);
             }
-            return TRUE;
+            return TRUE;*/
+            return true;
         }
         else
         {
             $this->form_validation->set_message('check_database', 'Invalid username or password');
             return false;
         }
+    }
+
+    function checkui(){
+        $this->load->view('new_app');
     }
 }
 ?>

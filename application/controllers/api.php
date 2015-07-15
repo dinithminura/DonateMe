@@ -2,8 +2,13 @@
 class api extends CI_Controller {
     public function getdata($appkey,$time,$type)
     {
-        $this->load->view('login_view');
+        //$this->load->view('login_view');
         $this->load->model('Dblink');
+        if(!$this->Dblink->findappkey($appkey)){
+            echo "status:Invalid Appkey";
+            return false;
+        }
+
         if ($time==null) {
             $ban=$this->Dblink->findBanner(false,null,$type);
             }
@@ -13,7 +18,7 @@ class api extends CI_Controller {
 
             $banid=$ban->banid;
 //var_dump($ban);
-        $ban->link="http://localhost:81/DonateMe/images/".$banid.".jpg";
+        $ban->link="http://localhost:81/images/".$banid.".jpg";
         echo json_encode($ban);
         $bantimetob=$this->Dblink->getfetchtime($banid)+1;
         echo "****",$banid;
